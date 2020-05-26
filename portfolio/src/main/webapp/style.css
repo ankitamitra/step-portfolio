@@ -4,6 +4,28 @@
   width: 650px;
 }
 
-#greeting-container {
+#fact-container {
   margin-top: 20px;
+  font-family: verdana;
+  font-size: 15px;
+  color: #003262;
+}
+
+h1 {
+  font-family: verdana;
+  font-size: 20px;
+  color: #c4820e;
+  text-align: center;
+  text-decoration: underline;
+  /*text-shadow: 2px 2px 5px #003262;*/
+}
+body {
+ background-image: url("/images/bg_1.jpg");
+ background-color: #bb9898;
+}
+
+p {
+  font-family: verdana;
+  font-size: 15px;
+  color: #003262;
 }
