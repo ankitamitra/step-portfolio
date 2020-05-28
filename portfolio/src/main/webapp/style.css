@@ -97,6 +97,15 @@ h2 {
     text-align: center;
     font-weight: bold;
 }
+h3 {
+    font-family: verdana;
+    font-size: 15px;
+    
+    text-align: center;
+    font-weight: bold;
+    color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
 body {
     background-image: url("/images/bg_1.jpg");
     background-color: #bb9898;
@@ -134,4 +143,32 @@ p3 {
     color: #003262;
     font-size: 12px;
     font-family: verdana;
+}
+p4 {
+    text-align: center;
+    color: #003262;
+    font-weight: bold;
+    font-family: verdana;
+}
+
+.grid-container {
+  display: grid;
+  grid: 150px / auto 150px auto;
+  grid-gap: 10px;
+  width: 600px;
+  background-color: #003262;
+  align-content: center;
+  text-align: center;
+  margin-left: auto;
+    margin-right: auto;
+  padding: 10px;
+  
+}
+
+.grid-container > div {
+  background-color: #c4820e;
+  text-align: center;
+  align-content: center;
+  padding: 20px 0;
+  font-size: 17px;
 }
