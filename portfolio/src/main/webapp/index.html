@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
-    </div>
-  </body>
+    <head>
+        <meta charset="UTF-8">
+        <title>My Portfolio</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <div id="content">
+            <h1>My Portfolio</h1>
+            <h2>This is Ankita's portfolio.</h2>
+            <iframe src="https://open.spotify.com/embed/playlist/3PujhiyIMnr3HhCmoLMdB9" width="300" height="380" 
+            frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                <div class="sticky">
+                    <a href="https://www.linkedin.com/in/mitraankita" target="_blank">
+                        <img src="/images/linkedin.png" alt="LinkedIn link" style="width:42px;height:42px;border:0">
+                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://github.com/ankitamitra" target="_blank">
+                        <img src="/images/github.png" alt="Github link" style="width:42px;height:42px;border:0">
+                    </a> 
+                </div>
+            <p>Ankita is a rising junior at UC Berkeley studying Computer Science
+            and Data Science. She loves dancing, cooking, and listening to "Take Me Home, 
+            Country Roads" about four times each day. More of her country loves -></p>
+            <p>Here is Ankita in her natural state.<br><br>
+            <img src="/images/ankita_picture.png" alt="Ankita's picture"></p>
+      
+            <p>Click here to see a random fact about Ankita. <br><br>
+            <button onclick="addRandomFact()">fact button</button></p>
+            <div id="fact-container">Your fact will appear here</div>
+      
+      
+        </div>
+    </body>
 </html>
