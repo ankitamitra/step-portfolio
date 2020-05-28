@@ -126,3 +126,12 @@ p2 {
     font-family: verdana;
     text-align: center;
 }
+p3 {
+    position: absolute;
+    left: 1200px;
+    top: 550px;
+    text-align: center;
+    color: #003262;
+    font-size: 12px;
+    font-family: verdana;
+}
