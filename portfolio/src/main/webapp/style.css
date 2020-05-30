@@ -156,7 +156,6 @@ p4 {
 
 .grid-container {
     display: grid;
-    grid: 150px / auto 150px auto;
     grid-template-rows: 150px auto;
     grid-template-columns: auto auto auto;
     grid-gap: 10px;
