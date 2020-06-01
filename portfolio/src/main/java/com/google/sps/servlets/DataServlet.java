@@ -26,13 +26,11 @@ import java.util.*;
 public class DataServlet extends HttpServlet {
 
   private ArrayList<String> messages = new ArrayList<String>(
-      Arrays.asList("Valorous m'rning", "Welcometh", "Enjoyeth")
+      Arrays.asList("Wond'rful website", "Valorous to seeth thee", "I too loveth the soundeth of music")
   );
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //response.setContentType("text/html;");
-    //response.getWriter().println("<h1>Hello Ankita!</h1>");
     
     // Convert the arraylist to JSON
     String json = convertToJson(messages);
@@ -45,16 +43,15 @@ public class DataServlet extends HttpServlet {
    * Converts an Arraylist<String> instance into a JSON string using manual String concatentation.
    */
   private String convertToJson(ArrayList<String> messages) {
-    String json = "{";
-    json += "\"messages\": [";
+    String json = "[";
 
     //add all but the last item
     for (int i = 0; i < messages.size() - 1; i++){
-        json += "\"" + messages.get(i) + "\"" + ",";
+        json += "\"" + messages.get(i) + "\"" + ", ";
     }
     // add the last item
     json += "\"" + messages.get(messages.size() - 1) + "\"";
-    json += "]}";
+    json += "]";
     return json;
   }
 }
