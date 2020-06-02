@@ -44,7 +44,6 @@
                 allowfullscreen></iframe> <br>
             </p3>
 
-
                 <div class="sticky">
                     <a href="https://www.linkedin.com/in/mitraankita" target="_blank">
                         <img src="/images/linkedin.png" alt="LinkedIn link" style="width:42px;height:42px;border:0">
@@ -79,8 +78,23 @@
                 <div class="item6">Murder on the Orient Express</div>
             </div> <br><br><br>
 
-            <h3><button onclick="getComments()">Show comments</button></h3>
-            <div id="comment-container">Comments will appear here</div> <br> <br>
+            <h3> Enter your comments! </h3>
+            <form action="/data" class="form-style" method="POST">
+                <label for="name">
+                    <span>Enter Your Name</span><input type="text" name="name" required="true" />
+                </label>
+                <label for="email">
+                    <span>Email Address</span><input type="email" name="email" required="true" />
+                </label>
+                <label for="subject">
+                    <span>Short Subject</span><input type="text" name="subject" required="true" />
+                </label>
+                <label for="comments">
+                    <span>Comments</span><textarea name="comments" onkeyup="adjust_textarea(this)" required="true"></textarea>
+                </label>
+                <label>
+                    <input type="submit" />
+            </form>
         </div>
     </body>
 </html>
