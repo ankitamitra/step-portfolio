@@ -14,19 +14,21 @@
 
 package com.google.sps.servlets;
 
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that returns hard-coded comments */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
   private ArrayList<String> messages = new ArrayList<String>(
-      Arrays.asList("Wond'rful website", "Valorous to seeth thee", "I too loveth the soundeth of music")
+      Arrays.asList("Most wondrous website", "Valorous to seeth thee", "I too loveth the soundeth of music")
   );
 
   @Override
@@ -40,18 +42,10 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println(json);
   }
   /**
-   * Converts an Arraylist<String> instance into a JSON string using manual String concatentation.
+   * Converts an Arraylist<String> instance into a JSON string using gson
    */
   private String convertToJson(ArrayList<String> messages) {
-    String json = "[";
-
-    //add all but the last item
-    for (int i = 0; i < messages.size() - 1; i++){
-        json += "\"" + messages.get(i) + "\"" + ", ";
-    }
-    // add the last item
-    json += "\"" + messages.get(messages.size() - 1) + "\"";
-    json += "]";
-    return json;
+    Gson gson = new Gson();
+    return gson.toJson(messages);
   }
 }
