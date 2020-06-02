@@ -59,10 +59,10 @@ public class DataServlet extends HttpServlet {
     String comments = getParameter(request, "comments", "");
     
     messages = new ArrayList<String>();
-    messages.add(0, comments);
-    messages.add(0, subject);
-    messages.add(0, email);
-    messages.add(0, name);
+    messages.add(name);
+    messages.add(email);
+    messages.add(subject);
+    messages.add(comments);
 
     // Respond with the result.
     response.setContentType("text/html;");
