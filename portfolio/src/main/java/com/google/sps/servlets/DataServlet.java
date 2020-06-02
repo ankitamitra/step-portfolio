@@ -27,8 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  // default values without user input
   private ArrayList<String> messages = new ArrayList<String>(
-      Arrays.asList("Most wondrous website", "Valorous to seeth thee", "I too loveth the soundeth of music")
+      Arrays.asList("No comments")
   );
 
   @Override
@@ -47,5 +48,36 @@ public class DataServlet extends HttpServlet {
   private String convertToJson(ArrayList<String> messages) {
     Gson gson = new Gson();
     return gson.toJson(messages);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String name = getParameter(request, "name", "");
+    String email = getParameter(request, "email", "");
+    String subject = getParameter(request, "subject", "");
+    String comments = getParameter(request, "comments", "");
+    
+    messages = new ArrayList<String>();
+    messages.add(0, comments);
+    messages.add(0, subject);
+    messages.add(0, email);
+    messages.add(0, name);
+
+    // Respond with the result.
+    response.setContentType("text/html;");
+    response.getWriter().println(convertToJson(messages));
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 }
