@@ -29,3 +29,12 @@ function addRandomFact() {
   const factContainer = document.getElementById('fact-container');
   factContainer.innerText = fact;
 }
+
+/**
+ * Fetches JSON String from the server
+ */
+function getComments() {
+  fetch('/data').then(response => response.text()).then((comment) => {
+    document.getElementById('comment-container').innerText = comment;
+  });
+}

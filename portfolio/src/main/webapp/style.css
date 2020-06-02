@@ -11,9 +11,24 @@
     font-family: verdana;
     font-size: 17px;
     color: #003262;
+    background-color: #33ccff;
+    border: 2px solid #003262;
+    text-align: center;
+}
+
+#comment-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 650px;
+    margin-top: 20px;
+    font-family: verdana;
+    font-size: 17px;
+    color: #003262;
     background-color: #c4820e;
     border: 2px solid #003262;
+    text-align: center;
 }
+
 
 #time {
     left: 10px;
@@ -85,7 +100,6 @@ img:hover {
 
 button{
     align-content: center;
-  
 }
 h1 {
     font-family: verdana;
@@ -109,6 +123,7 @@ h3 {
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
+
 body {
     background-image: url("/images/bg_1.jpg");
     background-color: #bb9898;
@@ -156,7 +171,6 @@ p4 {
 
 .grid-container {
     display: grid;
-    grid: 150px / auto 150px auto;
     grid-template-rows: 150px auto;
     grid-template-columns: auto auto auto;
     grid-gap: 10px;
