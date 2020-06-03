@@ -43,3 +43,32 @@ function adjust_textarea(h) {
     h.style.height = "20px";
     h.style.height = (h.scrollHeight)+"px";
 }
+
+/** Fetches comments from the server and adds them to the DOM. */
+function loadComments() {
+  fetch('/data').then(response => response.json()).then((comments) => {
+    const commentListElement = document.getElementById('comment-list');
+    comments.forEach((comment) => {
+      commentListElement.appendChild(createCommentElement(comment));
+    })
+  });
+}
+
+/** Creates an element that represents a comment through manual string concatenation*/
+function createCommentElement(comment) {
+    const commentElement = document.createElement('li');
+    commentElement.className = 'comment';
+    const nameElement = document.createElement('span');
+
+    var str = comment[0]; // name
+    str += " at ";
+    str += comment[1]; // email
+    str += " says: ";
+    str += comment[2]; // subject
+    str += " // ";
+    str += comment[3]; // comments
+    nameElement.innerText = str;
+
+    commentElement.appendChild(nameElement);
+    return commentElement;
+}

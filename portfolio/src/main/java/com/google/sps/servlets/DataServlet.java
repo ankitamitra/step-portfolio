@@ -78,7 +78,7 @@ public class DataServlet extends HttpServlet {
   }
 
     /**
-   * Converts an Arraylist<String> instance into a JSON string using gson
+   * Converts an Arraylist<ArrayList<String>> instance into a JSON string using gson
    */
   private String convertToJsonList(ArrayList<ArrayList<String>> messages) {
     Gson gson = new Gson();
