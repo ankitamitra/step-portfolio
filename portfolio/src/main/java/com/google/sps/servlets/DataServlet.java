@@ -17,6 +17,9 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -39,10 +42,30 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
-    // Convert the arraylist to JSON
-    String json = convertToJson(messages);
+    Query query = new Query("Comment").addSort("timestamp_UTC", SortDirection.DESCENDING);
 
-    // Send the JSON as the response
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    ArrayList<ArrayList<String>> comment_lst = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId();
+        String timestamp_UTC = (String)entity.getProperty("timestamp_UTC");
+        String name = (String)entity.getProperty("name");
+        String email = (String)entity.getProperty("email");
+        String subject = (String)entity.getProperty("subject");
+        String comments = (String)entity.getProperty("comments");
+        
+        ArrayList<String> comment = new ArrayList<String>();
+        comment.add(name);
+        comment.add(email);
+        comment.add(subject);
+        comment.add(comments);
+        comment.add(timestamp_UTC);
+        comment_lst.add(comment);
+    }
+
+    String json = convertToJsonList(comment_lst);
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
@@ -50,6 +73,14 @@ public class DataServlet extends HttpServlet {
    * Converts an Arraylist<String> instance into a JSON string using gson
    */
   private String convertToJson(ArrayList<String> messages) {
+    Gson gson = new Gson();
+    return gson.toJson(messages);
+  }
+
+    /**
+   * Converts an Arraylist<String> instance into a JSON string using gson
+   */
+  private String convertToJsonList(ArrayList<ArrayList<String>> messages) {
     Gson gson = new Gson();
     return gson.toJson(messages);
   }
