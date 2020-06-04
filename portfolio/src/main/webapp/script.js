@@ -34,6 +34,7 @@ function addRandomFact() {
  * Fetches JSON String from the server
  */
 function getComments() {
+    console.log("Hello world!");
   fetch('/data').then(response => response.text()).then((comment) => {
     document.getElementById('comment-container').innerText = comment;
   });
@@ -46,7 +47,7 @@ function adjust_textarea(h) {
 
 /** Fetches comments from the server and adds them to the DOM. */
 function loadComments() {
-  fetch('/data').then(response => response.json()).then((comments) => {
+  fetch('/data?num-results=' + getCommentLimit()).then(response => response.json()).then((comments) => {
     const commentListElement = document.getElementById('comment-list');
     comments.forEach((comment) => {
       commentListElement.appendChild(createCommentElement(comment));
@@ -72,3 +73,19 @@ function createCommentElement(comment) {
     commentElement.appendChild(nameElement);
     return commentElement;
 }
+
+function getCommentLimit() {
+    let tmp = (new URL(document.location)).searchParams;
+    let res = tmp.get("num-results");
+    if(!res || res.length === 0) {
+        return "10";
+    }
+    return res;
+}
+
+function deleteComments() {
+  const request = new Request('/delete-data', {method: 'POST'});
+  const responsePromise = fetch(request);
+
+}
+

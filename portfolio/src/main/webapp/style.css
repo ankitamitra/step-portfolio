@@ -283,3 +283,8 @@ p4 {
 .form-style input[type=button]:hover{
     background: #394D61;
 }
+
+select {
+    display: inline-block;
+    width: 10%;
+}

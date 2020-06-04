@@ -35,32 +35,50 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<Comment> messages = new ArrayList<>();
-  
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private ArrayList<Comment> messages = new ArrayList<>();
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
-    Query query = new Query("Comment").addSort("timestamp_UTC", SortDirection.DESCENDING);
+        Query query = new Query("Comment").addSort("timestamp_UTC", SortDirection.DESCENDING);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
+        String numResultsString = (request.getQueryString());
+        int numResults;
+        System.out.println("Here");
+        if (numResultsString == null) {
+            numResults = 1;
+        } else if (numResultsString.equals("num-results=1")) {
+            numResults = 1;
+        } else if (numResultsString.equals("num-results=2")) {
+            numResults = 2;
+        } else if (numResultsString.equals("num-results=3")) {
+            numResults = 3;
+        } else if (numResultsString.equals("num-results=4")) {
+            numResults = 4;
+        } else {
+            numResults = 1;
+        }
 
-    ArrayList<Comment> comment_lst = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-        long id = entity.getKey().getId();
-        String timestamp_UTC = (String)entity.getProperty("timestamp_UTC");
-        String name = (String)entity.getProperty("name");
-        String email = (String)entity.getProperty("email");
-        String subject = (String)entity.getProperty("subject");
-        String comments = (String)entity.getProperty("comments");
-        
-        Comment comment = new Comment(id, timestamp_UTC, name, email, subject, comments);
-        comment_lst.add(comment);
-    }
+        ArrayList<Comment> comment_lst = new ArrayList<>();
+        for (Entity entity : results.asIterable()) {
+            numResults--;
+            long id = entity.getKey().getId();
+            String timestamp_UTC = (String)entity.getProperty("timestamp_UTC");
+            String name = (String)entity.getProperty("name");
+            String email = (String)entity.getProperty("email");
+            String subject = (String)entity.getProperty("subject");
+            String comments = (String)entity.getProperty("comments");
+            
+            Comment comment = new Comment(id, timestamp_UTC, name, email, subject, comments);
+            comment_lst.add(comment);
+            if (numResults <= 0) break;
+        }
 
-    String json = convertToJsonList(comment_lst);
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
+        String json = convertToJsonList(comment_lst);
+        response.setContentType("application/json;");
+        response.getWriter().println(json);
   }
 
    /**
