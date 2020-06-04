@@ -34,12 +34,62 @@ function addRandomFact() {
  * Fetches JSON String from the server
  */
 function getComments() {
+    console.log("Hello world!");
   fetch('/data').then(response => response.text()).then((comment) => {
     document.getElementById('comment-container').innerText = comment;
   });
 }
 
-function adjust_textarea(h) {
+function adjustTextarea(h) {
     h.style.height = "20px";
     h.style.height = (h.scrollHeight)+"px";
+}
+
+/** Fetches comments from the server and adds them to the DOM. */
+function loadComments() {
+  fetch('/data?num-results=' + getCommentLimit()).then(response => response.json()).then((comments) => {
+    const commentListElement = document.getElementById('comment-list');
+    comments.forEach((comment) => {
+      commentListElement.appendChild(createCommentElement(comment));
+    })
+  });
+}
+
+/** Creates an element that represents a comment through manual string concatenation*/
+function createCommentElement(comment) {
+    const commentElement = document.createElement('li');
+    commentElement.className = 'comment';
+    const nameElement = document.createElement('span');
+
+    var str = comment.name; // name
+    str += " at ";
+    str += comment.email; // email
+    str += " says: ";
+    str += comment.subject; // subject
+    str += " // ";
+    str += comment.comments; // comments
+    nameElement.innerText = str;
+
+    commentElement.appendChild(nameElement);
+    return commentElement;
+}
+
+function getCommentLimit() {
+    let searchParams = (new URL(document.location)).searchParams;
+    let res = searchParams.get("num-results");
+    if(!res || res.length === 0) {
+        return "1";
+    }
+    return res;
+}
+
+function deleteComments() {
+  if (getConfirmation()){
+    const request = new Request('/delete-data', {method: 'POST'});
+    fetch(request);   
+  }
+}
+
+function getConfirmation(){
+    return confirm("Are you sure you want to delete all comments");
 }
