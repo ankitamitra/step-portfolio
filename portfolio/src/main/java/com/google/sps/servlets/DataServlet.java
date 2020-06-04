@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
+import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -34,10 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  // default values without user input
-  private ArrayList<String> messages = new ArrayList<String>(
-      Arrays.asList("No comments")
-  );
+  private ArrayList<Comment> messages = new ArrayList<>();
   
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -47,21 +45,16 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    ArrayList<ArrayList<String>> comment_lst = new ArrayList<>();
+    ArrayList<Comment> comment_lst = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
-      long id = entity.getKey().getId();
+        long id = entity.getKey().getId();
         String timestamp_UTC = (String)entity.getProperty("timestamp_UTC");
         String name = (String)entity.getProperty("name");
         String email = (String)entity.getProperty("email");
         String subject = (String)entity.getProperty("subject");
         String comments = (String)entity.getProperty("comments");
         
-        ArrayList<String> comment = new ArrayList<String>();
-        comment.add(name);
-        comment.add(email);
-        comment.add(subject);
-        comment.add(comments);
-        comment.add(timestamp_UTC);
+        Comment comment = new Comment(id, timestamp_UTC, name, email, subject, comments);
         comment_lst.add(comment);
     }
 
@@ -69,18 +62,11 @@ public class DataServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
-  /**
-   * Converts an Arraylist<String> instance into a JSON string using gson
-   */
-  private String convertToJson(ArrayList<String> messages) {
-    Gson gson = new Gson();
-    return gson.toJson(messages);
-  }
 
-    /**
-   * Converts an Arraylist<ArrayList<String>> instance into a JSON string using gson
+   /**
+   * Converts an Arraylist<Comment> instance into a JSON string using gson
    */
-  private String convertToJsonList(ArrayList<ArrayList<String>> messages) {
+  private String convertToJsonList(ArrayList<Comment> messages) {
     Gson gson = new Gson();
     return gson.toJson(messages);
   }
@@ -93,17 +79,6 @@ public class DataServlet extends HttpServlet {
     String subject = getParameter(request, "subject", "");
     String comments = getParameter(request, "comments", "");
     String timestamp_UTC = new Timestamp(System.currentTimeMillis()).toString();
-    
-    messages = new ArrayList<String>();
-    messages.add(name);
-    messages.add(email);
-    messages.add(subject);
-    messages.add(comments);
-    messages.add(timestamp_UTC);
-
-    // Respond with the result.
-    response.setContentType("text/html;");
-    response.getWriter().println(convertToJson(messages));
 
     // Store comments.
     Entity commentEntity = new Entity("Comment");

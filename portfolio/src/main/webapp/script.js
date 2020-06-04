@@ -60,13 +60,13 @@ function createCommentElement(comment) {
     commentElement.className = 'comment';
     const nameElement = document.createElement('span');
 
-    var str = comment[0]; // name
+    var str = comment.name; // name
     str += " at ";
-    str += comment[1]; // email
+    str += comment.email; // email
     str += " says: ";
-    str += comment[2]; // subject
+    str += comment.subject; // subject
     str += " // ";
-    str += comment[3]; // comments
+    str += comment.comments; // comments
     nameElement.innerText = str;
 
     commentElement.appendChild(nameElement);
