@@ -75,16 +75,21 @@ function createCommentElement(comment) {
 }
 
 function getCommentLimit() {
-    let tmp = (new URL(document.location)).searchParams;
-    let res = tmp.get("num-results");
+    let searchParams = (new URL(document.location)).searchParams;
+    let res = searchParams.get("num-results");
     if(!res || res.length === 0) {
-        return "10";
+        return "1";
     }
     return res;
 }
 
 function deleteComments() {
-  const request = new Request('/delete-data', {method: 'POST'});
-  fetch(request);
+  if (getConfirmation()){
+    const request = new Request('/delete-data', {method: 'POST'});
+    fetch(request);   
+  }
+}
 
+function getConfirmation(){
+    return confirm("Are you sure you want to delete all comments");
 }

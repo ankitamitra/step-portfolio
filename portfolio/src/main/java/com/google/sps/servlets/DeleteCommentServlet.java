@@ -15,18 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/delete-data")
 public class DeleteCommentServlet extends HttpServlet {
 
-  private String classType = "Comment";
-  private String commentTimestamp = "timestampUTC";
-  private String homePage = "/index.html";
+  private static final String HOMEPAGE = "/index.html";
+  private static final String CLASS_TYPE = "Comment";
+  private static final String COMMENT_TIMESTAMP = "timestampUTC";
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query(classType).addSort(commentTimestamp, SortDirection.DESCENDING);
+    Query query = new Query(CLASS_TYPE).addSort(COMMENT_TIMESTAMP, SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
     for (Entity entity : results.asIterable()) {
       datastore.delete(entity.getKey());
     }
-    response.sendRedirect(homePage);
+    response.sendRedirect(HOMEPAGE);
   }
 }

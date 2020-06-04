@@ -35,47 +35,32 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   private ArrayList<Comment> messages = new ArrayList<>();
-  private String homePage = "/index.html";
+  private static final String HOMEPAGE = "/index.html";
   //properties of the Comments
-  private String classType = "Comment";
-  private String commentTimestamp = "timestampUTC";
-  private String commentName = "name";
-  private String commentEmail = "email";
-  private String commentSubject = "subject";
-  private String fullComments = "comments";
+  private static final String CLASS_TYPE = "Comment";
+  private static final String COMMENT_TIMESTAMP = "timestampUTC";
+  private static final String COMMENT_NAME = "name";
+  private static final String COMMENT_EMAIL = "email";
+  private static final String COMMENT_SUBJECT = "subject";
+  private static final String FULL_COMMENTS = "comments";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    Query query = new Query(classType).addSort(commentTimestamp, SortDirection.DESCENDING);
+    Query query = new Query(CLASS_TYPE).addSort(COMMENT_TIMESTAMP, SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
-
-    String numResultsString = (request.getQueryString());
-    int numResults;
-    if (numResultsString == null) {
-      numResults = 1;
-    } else if (numResultsString.equals("num-results=1")) {
-      numResults = 1;
-    } else if (numResultsString.equals("num-results=2")) {
-      numResults = 2;
-    } else if (numResultsString.equals("num-results=3")) {
-      numResults = 3;
-    } else if (numResultsString.equals("num-results=4")) {
-      numResults = 4;
-    } else {
-      numResults = 1;
-    }
+    int numResults = Integer.parseInt(request.getParameter("num-results"));
 
     ArrayList<Comment> commentList = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       numResults--;
       long id = entity.getKey().getId();
-      String timestampUTC = (String) entity.getProperty(commentTimestamp);
-      String name = (String) entity.getProperty(commentName);
-      String email = (String) entity.getProperty(commentEmail);
-      String subject = (String) entity.getProperty(commentSubject);
-      String comments = (String) entity.getProperty(fullComments);
+      String timestampUTC = (String) entity.getProperty(COMMENT_TIMESTAMP);
+      String name = (String) entity.getProperty(COMMENT_NAME);
+      String email = (String) entity.getProperty(COMMENT_EMAIL);
+      String subject = (String) entity.getProperty(COMMENT_SUBJECT);
+      String comments = (String) entity.getProperty(FULL_COMMENTS);
 
       Comment comment = new Comment(id, timestampUTC, name, email, subject, comments);
       commentList.add(comment);
@@ -98,23 +83,23 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String name = getParameter(request, commentName, "");
-    String email = getParameter(request, commentEmail, "");
-    String subject = getParameter(request, commentSubject, "");
-    String comments = getParameter(request, fullComments, "");
+    String name = getParameter(request, COMMENT_NAME, "");
+    String email = getParameter(request, COMMENT_EMAIL, "");
+    String subject = getParameter(request, COMMENT_SUBJECT, "");
+    String comments = getParameter(request, FULL_COMMENTS, "");
     String timestampUTC = new Timestamp(System.currentTimeMillis()).toString();
 
     // Store comments.
-    Entity commentEntity = new Entity(classType);
-    commentEntity.setProperty(commentTimestamp, timestampUTC);
-    commentEntity.setProperty(commentName, name);
-    commentEntity.setProperty(commentEmail, email);
-    commentEntity.setProperty(commentSubject, subject);
-    commentEntity.setProperty(fullComments, comments);
+    Entity commentEntity = new Entity(CLASS_TYPE);
+    commentEntity.setProperty(COMMENT_TIMESTAMP, timestampUTC);
+    commentEntity.setProperty(COMMENT_NAME, name);
+    commentEntity.setProperty(COMMENT_EMAIL, email);
+    commentEntity.setProperty(COMMENT_SUBJECT, subject);
+    commentEntity.setProperty(FULL_COMMENTS, comments);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
-    response.sendRedirect(homePage);
+    response.sendRedirect(HOMEPAGE);
   }
 
   /**
