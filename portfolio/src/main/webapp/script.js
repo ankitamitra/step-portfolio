@@ -40,7 +40,7 @@ function getComments() {
   });
 }
 
-function adjust_textarea(h) {
+function adjustTextarea(h) {
     h.style.height = "20px";
     h.style.height = (h.scrollHeight)+"px";
 }
@@ -85,7 +85,6 @@ function getCommentLimit() {
 
 function deleteComments() {
   const request = new Request('/delete-data', {method: 'POST'});
-  const responsePromise = fetch(request);
+  fetch(request);
 
 }
-

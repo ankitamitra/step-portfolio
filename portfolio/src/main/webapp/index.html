@@ -90,10 +90,10 @@
                     <span>Short Subject</span><input type="text" name="subject" required="true" />
                 </label>
                 <label for="comments">
-                    <span>Comments</span><textarea name="comments" onkeyup="adjust_textarea(this)" required="true"></textarea>
+                    <span>Comments</span><textarea name="comments" onkeyup="adjustTextarea(this)" required="true"></textarea>
                 </label>
                 <label>
-                    <input type="submit" />
+                    <input type="submit" /> <hr><br>
             </form>
             <form method="GET">
                 <label for="num-results">Choose the number of results you would like to be shown:</label>
@@ -104,11 +104,11 @@
                 <option value="4">4</option>
                 </select>
                 <br><br>
-            <input type="submit" value="Change" onclick="getComments()"/>
-          </form>
-          <form method="POST">
-            <input type="submit" value="Delete All Comments" onclick="deleteComments()">
-          </form>
+                <input type="submit" value="Change" onclick="getComments()"/>
+            </form><br>
+            <form method="POST">
+                <input type="submit" value="Delete All Comments" onclick="deleteComments()">
+            </form>
           <p4><ul id="comment-list"></ul></p4>
         </div>
     </body>

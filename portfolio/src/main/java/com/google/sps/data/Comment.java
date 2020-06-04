@@ -4,15 +4,16 @@ package com.google.sps.data;
 public final class Comment {
 
   private final long id;
-  private final String timestamp_UTC;
+  private final String timestampUTC;
   private final String name;
   private final String email;
   private final String subject;
   private final String comments;
 
-  public Comment(long id, String timestamp_UTC, String name, String email, String subject, String comments) {
+  public Comment(
+      long id, String timestampUTC, String name, String email, String subject, String comments) {
     this.id = id;
-    this.timestamp_UTC = timestamp_UTC;
+    this.timestampUTC = timestampUTC;
     this.name = name;
     this.email = email;
     this.subject = subject;
