@@ -35,6 +35,13 @@
   margin-right: auto;
 }
 
+#map {
+  border: thin solid black;
+  height: 300px;
+  width: 300px;
+}
+
+
 .comment {
   border: thin solid black;
   display: flex;
@@ -74,23 +81,48 @@ div.water {
     height: 300px;
     align-content: center;
     background-color: red;
-    animation-name: example;
+    animation-name: water-animation;
     animation-duration: 4s;
     animation-iteration-count: infinite;
     text-align: center;
     color: white;
     font-weight: bold;
     border: 4px solid white;
-
+}
+div.arrow {
+    margin-left: auto;
+    margin-right: auto;
+    width: 270px;
+    height: 250px;
+    align-content: center;
+    background-color: red;
+    animation-name: arrow-animation;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    border: 2px solid white;
 }
 
-@keyframes example {
+@keyframes water-animation {
     0% {background-color: #0000ff;}
-    50% {background-color: #33ccff;}
+    25% {background-color: #33ccff;}
+    50% {background-color: #0000ff;}
+    75% {background-color: #33ccff;}
     100% {background-color: #0000ff;}
 }
 
+@keyframes arrow-animation {
+    0% {background-color: #33ccff;}
+    25% {background-color: #0000ff;}
+    50% {background-color: #33ccff;}
+    75% {background-color: #0000ff;}
+    100% {background-color: #33ccff;}
+}
+
 .water-image img {
+    width: 250px;
+    height: 200px;
+}
+.arrow-image img {
     width: 250px;
     height: 200px;
 }
@@ -211,11 +243,11 @@ p4 {
 }
 
 .form-style{
-	width: 450px;
-	font-size: 16px;
-	background: #495C70;
-	padding: 30px 30px 15px 30px;
-	border: 5px solid blue;
+    width: 450px;
+    font-size: 16px;
+    background: #495C70;
+    padding: 30px 30px 15px 30px;
+    border: 5px solid blue;
     margin-left: auto;
     margin-right: auto;
 }
@@ -226,41 +258,41 @@ p4 {
 .form-style textarea,
 .form-style label
 {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-size: 16px;
-	color: #fff;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 16px;
+    color: #fff;
 
 }
 .form-style label {
-	display:block;
-	margin-bottom: 10px;
+    display:block;
+    margin-bottom: 10px;
 }
 .form-style label > span{
-	display: inline-block;
-	width: 150px;
+    display: inline-block;
+    width: 150px;
 }
 .form-style input[type=text],
 .form-style input[type=email] 
 {
-	background: transparent;
-	border: none;
-	border-bottom: 1px dashed #c4820e;
-	width: 275px;
-	outline: none;
-	padding: 0px 0px 0px 0px;
-	font-style: italic;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed #c4820e;
+    width: 275px;
+    outline: none;
+    padding: 0px 0px 0px 0px;
+    font-style: italic;
 }
 .form-style textarea{
-	font-style: italic;
-	padding: 0px 0px 0px 0px;
-	background: transparent;
-	outline: none;
-	border: none;
-	border-bottom: 1px dashed #c4820e;
-	width: 275px;
-	overflow: hidden;
-	resize:none;
-	height:20px;
+    font-style: italic;
+    padding: 0px 0px 0px 0px;
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: 1px dashed #c4820e;
+    width: 275px;
+    overflow: hidden;
+    resize:none;
+    height:20px;
 }
 
 .form-style textarea:focus, 
@@ -268,16 +300,16 @@ p4 {
 .form-style input[type=email]:focus,
 .form-style input[type=email] :focus
 {
-	border-bottom: 1px dashed #D9FFA9;
+    border-bottom: 1px dashed #D9FFA9;
 }
 
 .form-style input[type=submit],
 .form-style input[type=button]{
-	background: #576E86;
-	border: none;
-	padding: 8px 10px 8px 10px;
-	border-radius: 5px;
-	color: #A8BACE;
+    background: #576E86;
+    border: none;
+    padding: 8px 10px 8px 10px;
+    border-radius: 5px;
+    color: #A8BACE;
 }
 .form-style input[type=submit]:hover,
 .form-style input[type=button]:hover{

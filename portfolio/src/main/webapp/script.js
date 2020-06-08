@@ -93,3 +93,50 @@ function deleteComments() {
 function getConfirmation(){
     return confirm("Are you sure you want to delete all comments");
 }
+
+/** Creates a map and adds it to the page. */
+function createMap() {
+
+  const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 23, lng: -42}, zoom: 1.3});
+
+  const tacoMarker = new google.maps.Marker({
+    position: {lat: 40.740937, lng: -73.981921},
+    map: map,
+    title: 'Street Taco',
+    animation: google.maps.Animation.BOUNCE
+  });
+  makeClickable(tacoMarker, map);
+
+  const bushkillMarker = new google.maps.Marker({
+    position: {lat: 41.117635, lng: -75.007680},
+    map: map,
+    title: 'Bushkill Falls',
+    animation: google.maps.Animation.BOUNCE
+  });
+  makeClickable(bushkillMarker, map);
+
+  const buranoMarker = new google.maps.Marker({
+    position: {lat: 45.485495, lng: 12.416705},
+    map: map,
+    title: 'Burano, Italy',
+    animation: google.maps.Animation.BOUNCE
+  });
+  makeClickable(buranoMarker, map);
+
+  const berkeleyMarker = new google.maps.Marker({
+    position: {lat: 37.874217, lng: -122.268349},
+    map: map,
+    title: 'U:Dessert Story, Berkeley',
+    animation: google.maps.Animation.BOUNCE
+  });
+  makeClickable(berkeleyMarker, map);
+}
+
+ function makeClickable(marker, map){
+    marker.addListener('click', function() {
+    map.setZoom(12);
+    map.setCenter(marker.getPosition());
+  });
+ }

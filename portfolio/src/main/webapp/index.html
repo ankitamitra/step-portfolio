@@ -4,9 +4,10 @@
         <meta charset="UTF-8">
         <title>My Portfolio</title>
         <link rel="stylesheet" href="style.css">
+        <script src="https://maps.googleapis.com/maps/api/js?key=KEY_HERE"></script>
         <script src="script.js"></script>
     </head>
-    <body onload="loadComments();">
+    <body onload="loadComments(); createMap();">
         <div id="content">
             <h1>My Portfolio</h1>
             <h2>This is Ankita's portfolio.</h2>
@@ -32,7 +33,15 @@
                     </a><br> <br><br>
                     <a target="_blank" href="https://www.visitbushkillfalls.com/">
                         <img src="/images/bushkill.png" alt="Food picture!" style="width:250px">
-                    </a>
+                    </a><br> <br>
+                    <div class = "arrow">
+                        <br>
+                        <div class="arrow-image">
+                            <img src="/images/arrow.png" alt="Arrow picture">
+                        </div> 
+                        Click 'em to zoom!
+                    </div><br><br>
+                    <div id="map"></div>
             </p2>
 
             <iframe src="https://open.spotify.com/embed/playlist/3PujhiyIMnr3HhCmoLMdB9" width="300" height="380" 
