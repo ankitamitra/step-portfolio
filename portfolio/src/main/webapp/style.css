@@ -41,6 +41,15 @@
   width: 300px;
 }
 
+#restaurantMap {
+  border: thin solid black;
+  height: 500px;
+  width: 500px;
+  align-content: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .comment {
   border: thin solid black;
@@ -191,6 +200,7 @@ p {
     width: 650px;
     font-family: verdana;
     font-size: 15px;
+    align-content: center;
     color: #003262;
   
 }
@@ -217,6 +227,17 @@ p4 {
     align-content: center;
     color: white;
     font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+p5 {
+    font-family: verdana;
+    font-size: 13px;
+    text-align: center;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    width: 650px;
+    align-content: center;
 }
 
 .grid-container {

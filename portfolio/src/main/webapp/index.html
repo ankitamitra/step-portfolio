@@ -4,10 +4,10 @@
         <meta charset="UTF-8">
         <title>My Portfolio</title>
         <link rel="stylesheet" href="style.css">
-        <script src="https://maps.googleapis.com/maps/api/js?key=KEY_HERE"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key="></script>
         <script src="script.js"></script>
     </head>
-    <body onload="loadComments(); createMap();">
+    <body onload="loadComments(); createMap(); createRestaurantMap();">
         <div id="content">
             <h1>My Portfolio</h1>
             <h2>This is Ankita's portfolio.</h2>
@@ -69,7 +69,10 @@
       
             <p>Click here to see a random fact about Ankita. <br><br>
             <button onclick="addRandomFact()">fact button</button></p>
-            <div id="fact-container">Your fact will appear here</div> <br> <br>
+            <div id="fact-container">Your fact will appear here</div> <br>
+
+            <h3> Michelin Star restaurants in California (with name + # of stars)</h3>
+            <div id="restaurantMap"></div> <br>
       
             <div class = "water"> <br> stop!! and drink some water :)<br> Hydration is very important. 
                 <div class="water-image">

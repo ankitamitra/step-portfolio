@@ -140,3 +140,22 @@ function createMap() {
     map.setCenter(marker.getPosition());
   });
  }
+
+function createRestaurantMap() {
+  fetch('/restaurant-data').then(response => response.json()).then((restaurants) => {
+    const restaurantMap = new google.maps.Map(
+        document.getElementById('restaurantMap'),
+        {center: {lat: 37, lng: -119}, zoom: 5});
+
+    restaurants.forEach((restaurant) => {
+      new google.maps.Marker(
+          {position: {lat: restaurant.lat, lng: restaurant.lng}, map: restaurantMap,
+           icon: getIcon(restaurant.star),
+           title: restaurant.name});
+    });
+  });
+}
+
+function getIcon(star){
+    return "/images/number_" + star + ".png";
+}
