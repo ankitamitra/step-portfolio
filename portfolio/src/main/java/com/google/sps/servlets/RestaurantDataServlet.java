@@ -31,10 +31,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/restaurant-data")
 public class RestaurantDataServlet extends HttpServlet {
 
-  private Collection<Restaurant> restaurants;
-  private String my_region = "California";
   private static final Map<Integer, String> NUMBERS = ImmutableMap.of(
     1, "one", 2, "two", 3, "three");
+  private Collection<Restaurant> restaurants;
+  private String my_region = "California";
+  
 
 
   @Override
