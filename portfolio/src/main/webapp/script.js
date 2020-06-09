@@ -148,14 +148,48 @@ function createRestaurantMap() {
         {center: {lat: 37, lng: -119}, zoom: 5});
 
     restaurants.forEach((restaurant) => {
-      new google.maps.Marker(
+      var marker = new google.maps.Marker(
           {position: {lat: restaurant.lat, lng: restaurant.lng}, map: restaurantMap,
            icon: getIcon(restaurant.star),
            title: restaurant.name});
+        var contentString = getBio(restaurant);
+      
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+      
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+      
+           
     });
+    
+    
   });
 }
 
 function getIcon(star){
     return "/images/number_" + star + ".png";
+}
+
+function getBio(restaurant){
+    priceLevel = "";
+    switch(restaurant.price){
+        case "$":
+            priceLevel = "pretty cheap!";
+            break;
+        case "$$":
+            priceLevel = "moderately priced!";
+            break;
+        case "$$$":
+            priceLevel = "expensive!";
+            break;
+        // $$$$ or higher:
+        default:
+            priceLevel = "very expensive!";
+    }
+
+    return restaurant.name + ", located in " + restaurant.city + ", " + restaurant.region
+            + ". It serves " + restaurant.cuisine + " food. \n It is " + priceLevel; 
 }

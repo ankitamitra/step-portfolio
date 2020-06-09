@@ -56,10 +56,13 @@ public class RestaurantDataServlet extends HttpServlet {
       String name = cells[0];
       double lat = Double.parseDouble(cells[2]);
       double lng = Double.parseDouble(cells[3]);
+      String city = cells[4];
       String region = cells[5];
+      String cuisine = cells[7];
+      String price = cells[8];
       
       if(region.compareTo(my_region) == 0){
-          restaurants.add(new Restaurant(lat, lng, star, name));
+          restaurants.add(new Restaurant(lat, lng, star, name, city, region, cuisine, price));
       }
     }
     scanner.close();

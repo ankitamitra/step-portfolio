@@ -20,11 +20,20 @@ public class Restaurant {
   private double lng;
   private int star;
   private String name;
+  private String city;
+  private String region;
+  private String cuisine;
+  private String price;
 
-  public Restaurant(double lat, double lng, int star, String name) {
+  public Restaurant(double lat, double lng, int star, String name,
+                    String city, String region, String cuisine, String price) {
     this.lat = lat;
     this.lng = lng;
     this.star = star;
     this.name = name;
+    this.city = city;
+    this.region = region;
+    this.cuisine = cuisine;
+    this.price = price;
   }
 }
