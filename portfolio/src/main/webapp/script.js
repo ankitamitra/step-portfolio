@@ -151,9 +151,9 @@ function createRestaurantMap() {
 
     restaurants.forEach((restaurant) => {
         var marker = new google.maps.Marker(
-            {position: {lat: restaurant.lat, lng: restaurant.lng}, map: restaurantMap,
-            icon: getIcon(restaurant.star),
-            title: restaurant.name});
+            {position: {lat: restaurant.lat(), lng: restaurant.lng()}, map: restaurantMap,
+            icon: getIcon(restaurant.star()),
+            title: restaurant.name()});
 
         var contentString = getBio(restaurant);
         var infowindow = new google.maps.InfoWindow({
@@ -180,7 +180,7 @@ function getIcon(star){
 /** Returns informative description of restaurant */
 function getBio(restaurant){
     priceLevel = "";
-    switch(restaurant.price){
+    switch(restaurant.price()){
         case "$":
             priceLevel = "pretty cheap!";
             break;
@@ -195,8 +195,8 @@ function getBio(restaurant){
             priceLevel = "very expensive!";
     }
 
-    return restaurant.name + ", located in " + restaurant.city + ", " + restaurant.region
-            + ". It serves " + restaurant.cuisine + " food. \n It is " + priceLevel; 
+    return restaurant.name() + ", located in " + restaurant.city() + ", " + restaurant.region()
+            + ". It serves " + restaurant.cuisine() + " food. \n It is " + priceLevel; 
 }
 
 /** Place marker at clicked point and get closest restaurant information window */
@@ -209,7 +209,7 @@ function placeMarkerAndPanTo(latLng, map, restaurants) {
 
     closest = getClosest(latLng, restaurants);
     var infowindow = new google.maps.InfoWindow({
-        content: closest.name + " is the nearest Michelin Star restaurant!"
+        content: closest.name() + " is the nearest Michelin Star restaurant!"
     });
 
     infowindow.open(map, marker);
@@ -235,6 +235,6 @@ function getClosest(latLng, restaurants){
 
 /** Find distance between a latlng value and a Restaurant object */
 function distance(latLng, restaurant){
-    return Math.pow(Math.pow((latLng.lat() - restaurant.lat), 2) 
-    + Math.pow((latLng.lng() - restaurant.lng), 2), 0.5);
+    return Math.pow(Math.pow((latLng.lat() - restaurant.lat()), 2) 
+    + Math.pow((latLng.lng() - restaurant.lng()), 2), 0.5);
 }

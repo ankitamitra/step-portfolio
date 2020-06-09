@@ -14,26 +14,45 @@
 
 package com.google.sps.data;
 
-/** Represents a Michelin star restaurant at a specific lat lng point. */
-public class Restaurant {
-  private double lat;
-  private double lng;
-  private int star;
-  private String name;
-  private String city;
-  private String region;
-  private String cuisine;
-  private String price;
+import com.google.auto.value.AutoValue;
 
-  public Restaurant(double lat, double lng, int star, String name,
+@AutoValue
+public abstract class Restaurant {
+  public static Restaurant create(double lat, double lng, int star, String name,
                     String city, String region, String cuisine, String price) {
-    this.lat = lat;
-    this.lng = lng;
-    this.star = star;
-    this.name = name;
-    this.city = city;
-    this.region = region;
-    this.cuisine = cuisine;
-    this.price = price;
+    return new AutoValue_Restaurant(lat, lng, star, name, city, region, cuisine, price);
   }
+
+  abstract double lat();
+  abstract double lng();
+  abstract int star();
+  abstract String name();
+  abstract String city();
+  abstract String region();
+  abstract String cuisine();
+  abstract String price();
 }
+
+// /** Represents a Michelin star restaurant at a specific lat lng point. */
+// public class Restaurant {
+//   private double lat;
+//   private double lng;
+//   private int star;
+//   private String name;
+//   private String city;
+//   private String region;
+//   private String cuisine;
+//   private String price;
+
+//   public Restaurant(double lat, double lng, int star, String name,
+//                     String city, String region, String cuisine, String price) {
+//     this.lat = lat;
+//     this.lng = lng;
+//     this.star = star;
+//     this.name = name;
+//     this.city = city;
+//     this.region = region;
+//     this.cuisine = cuisine;
+//     this.price = price;
+//   }
+// }

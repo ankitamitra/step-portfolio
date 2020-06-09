@@ -40,6 +40,17 @@
       <version>r05</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.auto.value</groupId>
+      <artifactId>auto-value-annotations</artifactId>
+      <version>1.6</version>
+   </dependency>
+   <dependency>
+      <groupId>com.google.auto.value</groupId>
+      <artifactId>auto-value</artifactId>
+      <version>1.6rc1</version>
+      <optional>true</optional>
+  </dependency>
 
   </dependencies>
 

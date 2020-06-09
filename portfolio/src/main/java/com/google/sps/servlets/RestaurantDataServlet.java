@@ -36,8 +36,6 @@ public class RestaurantDataServlet extends HttpServlet {
   private Collection<Restaurant> restaurants;
   private String my_region = "California";
   
-
-
   @Override
   public void init() {
     restaurants = new ArrayList<>();
@@ -65,7 +63,9 @@ public class RestaurantDataServlet extends HttpServlet {
       String price = cells[8];
       
       if(region.compareTo(my_region) == 0){
-          restaurants.add(new Restaurant(lat, lng, star, name, city, region, cuisine, price));
+        //   restaurants.add(new Restaurant(lat, lng, star, name, city, region, cuisine, price));
+        Restaurant restaurant = Restaurant.create(lat, lng, star, name, city, region, cuisine, price);
+        restaurants.add(restaurant);
       }
     }
     scanner.close();
