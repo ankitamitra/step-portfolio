@@ -93,3 +93,148 @@ function deleteComments() {
 function getConfirmation(){
     return confirm("Are you sure you want to delete all comments");
 }
+
+/** Creates a map and adds it to the page. */
+function createMap() {
+
+  const map = new google.maps.Map(
+      document.getElementById('map'),
+      {center: {lat: 23, lng: -42}, zoom: 1.3});
+
+  const tacoMarker = new google.maps.Marker({
+    position: {lat: 40.740937, lng: -73.981921},
+    map: map,
+    title: 'Street Taco',
+    animation: google.maps.Animation.BOUNCE
+  });
+  makeClickable(tacoMarker, map);
+
+  const bushkillMarker = new google.maps.Marker({
+    position: {lat: 41.117635, lng: -75.007680},
+    map: map,
+    title: 'Bushkill Falls',
+    animation: google.maps.Animation.BOUNCE
+  });
+  makeClickable(bushkillMarker, map);
+
+  const buranoMarker = new google.maps.Marker({
+    position: {lat: 45.485495, lng: 12.416705},
+    map: map,
+    title: 'Burano, Italy',
+    animation: google.maps.Animation.BOUNCE
+  });
+  makeClickable(buranoMarker, map);
+
+  const berkeleyMarker = new google.maps.Marker({
+    position: {lat: 37.874217, lng: -122.268349},
+    map: map,
+    title: 'U:Dessert Story, Berkeley',
+    animation: google.maps.Animation.BOUNCE
+  });
+  makeClickable(berkeleyMarker, map);
+}
+
+ function makeClickable(marker, map){
+    marker.addListener('click', function() {
+    map.setZoom(12);
+    map.setCenter(marker.getPosition());
+  });
+ }
+
+/** Creates map of Michelin Star restaurants */
+function createRestaurantMap() {
+
+  fetch('/restaurant-data').then(response => response.json()).then((restaurants) => {
+    const restaurantMap = new google.maps.Map(
+        document.getElementById('restaurantMap'),
+        {center: {lat: 37, lng: -119}, zoom: 5});
+
+    restaurants.forEach((restaurant) => {
+        var marker = new google.maps.Marker(
+            {position: {lat: restaurant.lat, lng: restaurant.lng}, map: restaurantMap,
+            icon: getIcon(restaurant.star),
+            title: restaurant.name});
+
+        var contentString = getBio(restaurant);
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
+    });
+
+    restaurantMap.addListener('click', function(e) {
+        user_marker = placeMarkerAndPanTo(e.latLng, restaurantMap, restaurants);
+    });
+    
+  });
+}
+
+/** Returns icon corresponding to # of Michelin Stars received */
+function getIcon(star){
+    return "/images/number_" + star + ".png";
+}
+
+/** Returns informative description of restaurant */
+function getBio(restaurant){
+    priceLevel = "";
+    switch(restaurant.price){
+        case "$":
+            priceLevel = "pretty cheap!";
+            break;
+        case "$$":
+            priceLevel = "moderately priced!";
+            break;
+        case "$$$":
+            priceLevel = "expensive!";
+            break;
+        // $$$$ or higher:
+        default:
+            priceLevel = "very expensive!";
+    }
+
+    return restaurant.name + ", located in " + restaurant.city + ", " + restaurant.region
+            + ". It serves " + restaurant.cuisine + " food. \n It is " + priceLevel; 
+}
+
+/** Place marker at clicked point and get closest restaurant information window */
+function placeMarkerAndPanTo(latLng, map, restaurants) {
+    var marker = new google.maps.Marker({
+        position: latLng,
+        map: map
+    });
+    map.panTo(latLng);
+
+    closest = getClosest(latLng, restaurants);
+    var infowindow = new google.maps.InfoWindow({
+        content: closest.name + " is the nearest Michelin Star restaurant!"
+    });
+
+    infowindow.open(map, marker);
+  
+}
+
+/** Get closest restaurant to given latlng value */
+function getClosest(latLng, restaurants){
+    minimum_dist = Number.MAX_SAFE_INTEGER;
+    closest = restaurants[1];
+
+    min_dist = Number.MAX_SAFE_INTEGER;
+    for (i = 0; i < restaurants.length; i++){
+        dist = distance(latLng, restaurants[i]);
+        if (dist < min_dist){
+            min_dist = dist;
+            closest = restaurants[i];
+        }
+    }
+    return closest;
+    
+}
+
+/** Find distance between a latlng value and a Restaurant object */
+function distance(latLng, restaurant){
+    return Math.pow(Math.pow((latLng.lat() - restaurant.lat), 2) 
+    + Math.pow((latLng.lng() - restaurant.lng), 2), 0.5);
+}

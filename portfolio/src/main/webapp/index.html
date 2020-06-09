@@ -4,13 +4,13 @@
         <meta charset="UTF-8">
         <title>My Portfolio</title>
         <link rel="stylesheet" href="style.css">
+        <script src="https://maps.googleapis.com/maps/api/js?key="></script>
         <script src="script.js"></script>
     </head>
-    <body onload="loadComments();">
+    <body onload="loadComments(); createMap(); createRestaurantMap();">
         <div id="content">
             <h1>My Portfolio</h1>
             <h2>This is Ankita's portfolio.</h2>
-
             <p2>
                 <div style="text-align:center;padding:1em 0;"> <h4>
                     <a style="text-decoration:none;" href="https://www.zeitverschiebung.net/en/city/5368361">
@@ -32,7 +32,15 @@
                     </a><br> <br><br>
                     <a target="_blank" href="https://www.visitbushkillfalls.com/">
                         <img src="/images/bushkill.png" alt="Food picture!" style="width:250px">
-                    </a>
+                    </a><br> <br>
+                    <div class = "arrow">
+                        <br>
+                        <div class="arrow-image">
+                            <img src="/images/arrow.png" alt="Arrow picture">
+                        </div> 
+                        Click 'em to zoom!
+                    </div><br><br>
+                    <div id="map"></div>
             </p2>
 
             <iframe src="https://open.spotify.com/embed/playlist/3PujhiyIMnr3HhCmoLMdB9" width="300" height="380" 
@@ -60,7 +68,11 @@
       
             <p>Click here to see a random fact about Ankita. <br><br>
             <button onclick="addRandomFact()">fact button</button></p>
-            <div id="fact-container">Your fact will appear here</div> <br> <br>
+            <div id="fact-container">Your fact will appear here</div> <br>
+
+            <h3> Michelin Star restaurants in California (click to learn more!)</h3>
+            <p> Click any point on the map to find your nearest Californian Michelin Star restaurant! </p>
+            <div id="restaurantMap"></div> <br>
       
             <div class = "water"> <br> stop!! and drink some water :)<br> Hydration is very important. 
                 <div class="water-image">
