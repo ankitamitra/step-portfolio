@@ -142,6 +142,9 @@ function createMap() {
  }
 
 function createRestaurantMap() {
+
+  var locations = [];
+
   fetch('/restaurant-data').then(response => response.json()).then((restaurants) => {
     const restaurantMap = new google.maps.Map(
         document.getElementById('restaurantMap'),
@@ -164,7 +167,10 @@ function createRestaurantMap() {
       
            
     });
-    
+    restaurantMap.addListener('click', function(e) {
+        user_marker = placeMarkerAndPanTo(e.latLng, restaurantMap, restaurants);
+        // getClosest(e.latLng, restaurantMap, restaurants, user_marker);
+    });
     
   });
 }
@@ -192,4 +198,43 @@ function getBio(restaurant){
 
     return restaurant.name + ", located in " + restaurant.city + ", " + restaurant.region
             + ". It serves " + restaurant.cuisine + " food. \n It is " + priceLevel; 
+}
+
+function placeMarkerAndPanTo(latLng, map, restaurants) {
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: map
+  });
+  map.panTo(latLng);
+
+    // closest = restaurants[0];
+    closest = getClosest(latLng, restaurants);
+    var infowindow = new google.maps.InfoWindow({
+        // content: closest.title
+        content: closest.name
+      });
+      
+    infowindow.open(map, marker);
+  
+}
+
+function getClosest(latLng, restaurants){
+    //get closest restaurant:
+    minimum_dist = Number.MAX_SAFE_INTEGER;
+    closest = restaurants[1];
+
+    min_dist = 100000000;
+    for (i = 0; i < restaurants.length; i++){
+        if (distance(latLng, restaurants[i]) < min_dist){
+            min_dist = distance(latLng, restaurants[i]);
+            closest = restaurants[i];
+        }
+    }
+    return closest;
+    
+}
+
+function distance(latLng, restaurant){
+    return Math.pow(Math.pow((latLng.lat() - restaurant.lat), 2) 
+    + Math.pow((latLng.lng() - restaurant.lng), 2), 0.5);
 }
