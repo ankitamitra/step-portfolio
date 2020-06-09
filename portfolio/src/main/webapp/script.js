@@ -141,9 +141,8 @@ function createMap() {
   });
  }
 
+/** Creates map of Michelin Star restaurants */
 function createRestaurantMap() {
-
-  var locations = [];
 
   fetch('/restaurant-data').then(response => response.json()).then((restaurants) => {
     const restaurantMap = new google.maps.Map(
@@ -151,34 +150,34 @@ function createRestaurantMap() {
         {center: {lat: 37, lng: -119}, zoom: 5});
 
     restaurants.forEach((restaurant) => {
-      var marker = new google.maps.Marker(
-          {position: {lat: restaurant.lat, lng: restaurant.lng}, map: restaurantMap,
-           icon: getIcon(restaurant.star),
-           title: restaurant.name});
+        var marker = new google.maps.Marker(
+            {position: {lat: restaurant.lat, lng: restaurant.lng}, map: restaurantMap,
+            icon: getIcon(restaurant.star),
+            title: restaurant.name});
+
         var contentString = getBio(restaurant);
-      
-      var infowindow = new google.maps.InfoWindow({
-        content: contentString
-      });
-      
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);
-      });
-      
-           
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
     });
+
     restaurantMap.addListener('click', function(e) {
         user_marker = placeMarkerAndPanTo(e.latLng, restaurantMap, restaurants);
-        // getClosest(e.latLng, restaurantMap, restaurants, user_marker);
     });
     
   });
 }
 
+/** Returns icon corresponding to # of Michelin Stars received */
 function getIcon(star){
     return "/images/number_" + star + ".png";
 }
 
+/** Returns informative description of restaurant */
 function getBio(restaurant){
     priceLevel = "";
     switch(restaurant.price){
@@ -200,33 +199,33 @@ function getBio(restaurant){
             + ". It serves " + restaurant.cuisine + " food. \n It is " + priceLevel; 
 }
 
+/** Place marker at clicked point and get closest restaurant information window */
 function placeMarkerAndPanTo(latLng, map, restaurants) {
-  var marker = new google.maps.Marker({
-    position: latLng,
-    map: map
-  });
-  map.panTo(latLng);
+    var marker = new google.maps.Marker({
+        position: latLng,
+        map: map
+    });
+    map.panTo(latLng);
 
-    // closest = restaurants[0];
     closest = getClosest(latLng, restaurants);
     var infowindow = new google.maps.InfoWindow({
-        // content: closest.title
-        content: closest.name
-      });
-      
+        content: closest.name + " is the nearest Michelin Star restaurant!"
+    });
+
     infowindow.open(map, marker);
   
 }
 
+/** Get closest restaurant to given latlng value */
 function getClosest(latLng, restaurants){
-    //get closest restaurant:
     minimum_dist = Number.MAX_SAFE_INTEGER;
     closest = restaurants[1];
 
-    min_dist = 100000000;
+    min_dist = Number.MAX_SAFE_INTEGER;
     for (i = 0; i < restaurants.length; i++){
-        if (distance(latLng, restaurants[i]) < min_dist){
-            min_dist = distance(latLng, restaurants[i]);
+        dist = distance(latLng, restaurants[i]);
+        if (dist < min_dist){
+            min_dist = dist;
             closest = restaurants[i];
         }
     }
@@ -234,6 +233,7 @@ function getClosest(latLng, restaurants){
     
 }
 
+/** Find distance between a latlng value and a Restaurant object */
 function distance(latLng, restaurant){
     return Math.pow(Math.pow((latLng.lat() - restaurant.lat), 2) 
     + Math.pow((latLng.lng() - restaurant.lng), 2), 0.5);

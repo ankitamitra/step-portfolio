@@ -45,6 +45,8 @@ public class RestaurantDataServlet extends HttpServlet {
     readRestaurants(3);
   }
 
+  /** Reads restaurant data from CSV file.
+      Dataset can be found here: https://www.kaggle.com/jackywang529/michelin-restaurants */
   private void readRestaurants(int star){
     String path = "/WEB-INF/" + NUMBERS.get(star) + "-stars-michelin-restaurants.csv";
     Scanner scanner = new Scanner(getServletContext().getResourceAsStream(path));
