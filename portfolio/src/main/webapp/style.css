@@ -229,17 +229,6 @@ p4 {
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-p5 {
-    font-family: verdana;
-    font-size: 13px;
-    text-align: center;
-    color: white;
-    margin-left: auto;
-    margin-right: auto;
-    width: 650px;
-    align-content: center;
-}
-
 .grid-container {
     display: grid;
     grid-template-rows: 150px auto;
