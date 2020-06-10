@@ -315,7 +315,7 @@ function drawTree(){
             format: 'implicit',
             word: 'ankita',
             colors: ['#c4820e', 'orange', '#003262']
-        }
+          }
         }
 
         var chart = new google.visualization.WordTree(document.getElementById('wordtree'));

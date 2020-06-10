@@ -237,10 +237,6 @@ p4 {
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-p5 {
-    
-}
-
 .grid-container {
     display: grid;
     grid-template-rows: 150px auto;
