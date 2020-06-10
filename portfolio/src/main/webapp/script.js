@@ -284,3 +284,40 @@ function drawChart(){
         var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
         chart.draw(data, {'allowHtml':true, 'nodeClass': "chart", 'size': 'small'});
 }
+
+function loadTree(){
+    google.charts.load('current', {packages:['wordtree']});
+    google.charts.setOnLoadCallback(drawTree);
+}
+
+/** Draws the tree; sentiment value of a phrase ranges from 0(something Ankita is not at all proud of)
+    to 10(something Ankita IS proud of!) */
+function drawTree(){
+    var data = google.visualization.arrayToDataTable(
+          [ ['Phrases', 'size', 'sentiment'],
+            ['ankita likes eating', 1, 5],
+            ['ankita likes cooking', 1, 8],
+            ['ankita likes drinking oatmilk', 1, 6],
+            ['ankita likes drinking coffee', 1, 3],
+            ['ankita is 19 years old', 1, 5], 
+            ['ankita is passionate about weddings', 1, 10],
+            ['ankita does not have her driver\'s license', 1, 0],
+            ['ankita does not like rollercoasters', 1, 3],
+            ['ankita is working at Google this summer', 1, 10],
+            ['ankita likes eating Thai Eggplant', 1, 8],
+            ['ankita likes eating Thai iced tea', 1, 8],
+            ['ankita likes eating Ike\'s sandwiches', 1, 8],
+          ]
+        );
+
+        var options = {
+          wordtree: {
+            format: 'implicit',
+            word: 'ankita',
+            colors: ['#c4820e', 'orange', '#003262']
+        }
+        }
+
+        var chart = new google.visualization.WordTree(document.getElementById('wordtree'));
+        chart.draw(data, options);
+}
