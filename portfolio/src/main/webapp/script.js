@@ -249,7 +249,7 @@ function drawChart(){
     var data = new google.visualization.DataTable();
         data.addColumn('string', 'Name');
         data.addColumn('string', 'Manager');
-        data.addColumn('string', 'ToolTip');
+        data.addColumn('string', 'Google Username');
 
         // For each orgchart box, we display name and position, and hoverable username access
         data.addRows([
