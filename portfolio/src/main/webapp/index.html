@@ -6,8 +6,9 @@
         <link rel="stylesheet" href="style.css">
         <script src="https://maps.googleapis.com/maps/api/js?key="></script>
         <script src="script.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     </head>
-    <body onload="loadComments(); createMap(); createRestaurantMap();">
+    <body onload="loadComments(); createMap(); createRestaurantMap(); loadChart();">
         <div id="content">
             <h1>My Portfolio</h1>
             <h2>This is Ankita's portfolio.</h2>
@@ -19,7 +20,7 @@
                     width="100%" height="90" frameborder="0" seamless></iframe> </div>
                     <br><br><br><br>
                     <textarea name=”VisitorComment” rows=”20″ cols=”20″>Take notes here!</textarea><br><br><br>
-
+                    
                     My favorite places: <br>(click to visit!)<br><br>
                     <a target="_blank" href="http://www.udessertstorysf.com/berkeley.html">
                         <img src="/images/food.jpg" alt="Food picture!" style="width:150px">
@@ -65,6 +66,8 @@
             Country Roads" about four times each day. More of her country loves + beyond! -></p>
             <p>Here is Ankita in her natural state.<br><br>
             <img src="/images/ankita_picture.png" alt="Ankita's picture"></p>
+
+            <h3> <div id="chart_div"></div> </h3>
       
             <p>Click here to see a random fact about Ankita. <br><br>
             <button onclick="addRandomFact()">fact button</button></p>

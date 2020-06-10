@@ -229,6 +229,10 @@ p4 {
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 
+p5 {
+    
+}
+
 .grid-container {
     display: grid;
     grid-template-rows: 150px auto;
@@ -325,8 +329,11 @@ p4 {
 .form-style input[type=button]:hover{
     background: #394D61;
 }
-
 select {
     display: inline-block;
     width: 10%;
+}
+.chart{
+    background-color: black;
+    color: white;
 }
