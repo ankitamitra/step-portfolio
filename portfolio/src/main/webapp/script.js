@@ -321,3 +321,10 @@ function drawTree(){
         var chart = new google.visualization.WordTree(document.getElementById('wordtree'));
         chart.draw(data, options);
 }
+
+function handleResponse(response) {
+    for (var i = 0; i < response.items.length; i++) {
+        var item = response.items[i];
+        document.getElementById("books").innerHTML += "<br>" + item.volumeInfo.title;
+    }
+}
