@@ -238,3 +238,95 @@ function distance(latLng, restaurant){
     return Math.pow(Math.pow((latLng.lat() - restaurant.lat), 2) 
     + Math.pow((latLng.lng() - restaurant.lng), 2), 0.5);
 }
+
+function loadChart(){
+    google.charts.load('current', {packages:["orgchart"]});
+    google.charts.setOnLoadCallback(drawChart);
+}
+
+/** Draws the organization chart with hoverable data */
+function drawChart(){
+    var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('string', 'Manager');
+        data.addColumn('string', 'Google Username');
+
+        // For each orgchart box, we display name and position, and hoverable username access
+        data.addRows([
+          [{'v':'Sundar', 'f':'Sundar<div style="color:red; font-style:italic">CEO Man!</div>'},
+           '', 'sundar@'],
+          [{'v':'Thomas', 'f':'Thomas<div style="color:red; font-style:italic">Google Cloud Ninja</div>'},
+           'Sundar', 'tkurian@'],
+          [{'v':'Javier', 'f':'Javier<div style="color:red; font-style:italic">GSuite Legend</div>'},
+           'Thomas', 'jsoltero@'],
+          [{'v':'Aparna', 'f':'Aparna<div style="color:red; font-style:italic">Apps Engineering Goddess</div>'},
+           'Javier', 'apappu@'],
+          [{'v':'Jim', 'f':'Jim<div style="color:red; font-style:italic">DRIVEr of Workflow</div>'},
+           'Aparna', 'jimgiles@'],
+          [{'v':'Bryan', 'f':'Bryan<div style="color:red; font-style:italic">DRIVEr of Backend everything!</div>'},
+           'Jim', 'bryanv@'],
+          [{'v':'Till', 'f':'Till<div style="color:red; font-style:italic">Aaron\'s old boss</div>'},
+           'Bryan', 'till@'],
+          [{'v':'Lakshmanan', 'f':'Lakshmanan<div style="color:red; font-style:italic">Wipeout, most importantly</div>'},
+           'Till', 'lakshmanans@'],
+          [{'v':'Saurabh', 'f':'Saurabh<div style="color:red; font-style:italic">Wipeout wipeout wipeout!! woohoo!</div>'},
+           'Lakshmanan', 'saur@'],
+          [{'v':'Christian', 'f':'Christian<div style="color:red; font-style:italic">Wipeout wipeout wipeout!! woohoo!</div>'},
+           'Lakshmanan', 'cjwert@'],
+          [{'v':'Adrian', 'f':'Adrian<div style="color:red; font-style:italic">smol intern</div>'},
+           'Saurabh', 'amanhey@'],
+          [{'v':'Ankita', 'f':'Ankita<div style="color:green; font-style:italic">smol intern</div>'},
+           'Saurabh', 'mitraan@'],
+          [{'v':'Danya', 'f':'Danya<div style="color:red; font-style:italic">smol intern</div>'},
+           'Saurabh', 'danyagao@'],
+        ]);
+
+        var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+        chart.draw(data, {'allowHtml':true, 'nodeClass': "chart", 'size': 'small'});
+}
+
+function loadTree(){
+    google.charts.load('current', {packages:['wordtree']});
+    google.charts.setOnLoadCallback(drawTree);
+}
+
+/** Draws the tree; sentiment value of a phrase ranges from 0(something Ankita is not at all proud of)
+    to 10(something Ankita IS proud of!) */
+function drawTree(){
+    var data = google.visualization.arrayToDataTable(
+          [ ['Phrases', 'size', 'sentiment'],
+            ['ankita likes eating', 1, 5],
+            ['ankita likes cooking', 1, 8],
+            ['ankita likes drinking oatmilk', 1, 6],
+            ['ankita likes drinking coffee', 1, 3],
+            ['ankita is 19 years old', 1, 5], 
+            ['ankita is passionate about weddings', 1, 10],
+            ['ankita does not have her driver\'s license', 1, 0],
+            ['ankita does not like rollercoasters', 1, 3],
+            ['ankita is working at Google this summer', 1, 10],
+            ['ankita likes eating Thai Eggplant', 1, 8],
+            ['ankita likes eating Thai iced tea', 1, 8],
+            ['ankita likes eating Ike\'s sandwiches', 1, 8],
+          ]
+        );
+
+        var options = {
+          wordtree: {
+            format: 'implicit',
+            word: 'ankita',
+            colors: ['#c4820e', 'orange', '#003262']
+          }
+        }
+
+        var chart = new google.visualization.WordTree(document.getElementById('wordtree'));
+        chart.draw(data, options);
+}
+
+function handleResponse(response) {
+    for (var i = 0; i < response.items.length; i++) {
+        var item = response.items[i];
+        var title = item.volumeInfo.title;
+        var link = "Read here".link(item.accessInfo.webReaderLink);
+        document.getElementById("books").innerHTML += "<br>" + title + ": " + link;
+    }
+}

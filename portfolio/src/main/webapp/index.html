@@ -6,9 +6,9 @@
         <link rel="stylesheet" href="style.css">
         <script src="https://maps.googleapis.com/maps/api/js?key="></script>
         <script src="script.js"></script>
-    </head>
-    <body onload="loadComments(); createMap(); createRestaurantMap();">
-        <div id="content">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        </head>
+    <body onload="loadComments(); createMap(); createRestaurantMap(); loadChart(); loadTree();">
             <h1>My Portfolio</h1>
             <h2>This is Ankita's portfolio.</h2>
             <p2>
@@ -19,7 +19,7 @@
                     width="100%" height="90" frameborder="0" seamless></iframe> </div>
                     <br><br><br><br>
                     <textarea name=”VisitorComment” rows=”20″ cols=”20″>Take notes here!</textarea><br><br><br>
-
+                    
                     My favorite places: <br>(click to visit!)<br><br>
                     <a target="_blank" href="http://www.udessertstorysf.com/berkeley.html">
                         <img src="/images/food.jpg" alt="Food picture!" style="width:150px">
@@ -65,6 +65,8 @@
             Country Roads" about four times each day. More of her country loves + beyond! -></p>
             <p>Here is Ankita in her natural state.<br><br>
             <img src="/images/ankita_picture.png" alt="Ankita's picture"></p>
+
+            <h3> <div id="chart_div"></div> </h3>
       
             <p>Click here to see a random fact about Ankita. <br><br>
             <button onclick="addRandomFact()">fact button</button></p>
@@ -79,6 +81,9 @@
                     <img src="/images/water.png" alt="Ankita's picture">
                 </div> 
             </div> <br><br><br>
+            <h3> Ankita's life, summarized. </h3>
+            <div id="wordtree" style="width: 900px; height: 500px;"></div>
+
             <h3>Ankita's favorite quotes:</h3>
             <div class="grid-container">
                 <div class="item1">"But how could you live <br>and have no story to tell?" <br><br> ~ Fyodor Dostoevsky
@@ -89,6 +94,7 @@
                 <div class="item5">Why Not Me</div>
                 <div class="item6">Murder on the Orient Express</div>
             </div> <br><br><br>
+            <p>  <div id="books"><h3>Read about Ankita's favorite era</h3></div> </p><br>
 
             <h3> Enter your comments! </h3>
             <form action="/data" class="form-style" method="POST">
@@ -123,5 +129,7 @@
             </form>
           <p4><ul id="comment-list"></ul></p4>
         </div>
+        <script src="https://www.googleapis.com/books/v1/volumes?q=roaring+twenties&callback=handleResponse"></script>
+    
     </body>
 </html>

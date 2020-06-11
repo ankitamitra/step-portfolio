@@ -16,6 +16,14 @@
     text-align: center;
 }
 
+#wordtree {  
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+} 
+
 #comment-container {
     margin-left: auto;
     margin-right: auto;
@@ -33,6 +41,13 @@
   list-style-type: none;
   margin-left: auto;
   margin-right: auto;
+}
+#books {
+  margin-left: auto;
+  margin-right: auto;
+  align-content: center;
+  text-align: center;
+  color: white;
 }
 
 #map {
@@ -325,8 +340,11 @@ p4 {
 .form-style input[type=button]:hover{
     background: #394D61;
 }
-
 select {
     display: inline-block;
     width: 10%;
+}
+.chart{
+    background-color: black;
+    color: white;
 }
