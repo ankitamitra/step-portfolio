@@ -325,6 +325,8 @@ function drawTree(){
 function handleResponse(response) {
     for (var i = 0; i < response.items.length; i++) {
         var item = response.items[i];
-        document.getElementById("books").innerHTML += "<br>" + item.volumeInfo.title;
+        var title = item.volumeInfo.title;
+        var link = "Read here".link(item.accessInfo.webReaderLink);
+        document.getElementById("books").innerHTML += "<br>" + title + ": " + link;
     }
 }
