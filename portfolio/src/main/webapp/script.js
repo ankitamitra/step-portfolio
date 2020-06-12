@@ -327,6 +327,8 @@ function handleResponse(response) {
         var item = response.items[i];
         var title = item.volumeInfo.title;
         var link = "Read here".link(item.accessInfo.webReaderLink);
-        document.getElementById("books").innerHTML += "<br>" + title + ": " + link;
+        if (item.accessInfo.viewability != "NO_PAGES"){
+            document.getElementById("books").innerHTML += "<br>" + title + ": " + link;
+        }
     }
 }
