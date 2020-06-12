@@ -198,7 +198,7 @@ h3 {
 }
 
 body {
-    background-image: url("/images/bg_1.jpg");
+    background-image: url("/images/bg_transparent.png");
     background-color: #bb9898;
     background-size: cover;
 }
