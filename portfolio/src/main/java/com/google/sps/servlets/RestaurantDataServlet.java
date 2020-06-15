@@ -14,9 +14,9 @@
 
 package com.google.sps.servlets;
 
-import com.google.sps.data.Restaurant;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import com.google.sps.data.Restaurant;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,12 +30,11 @@ import javax.servlet.http.HttpServletResponse;
 /** Returns restaurant data as a JSON array, e.g. [{"lat": 38.4404675, "lng": -122.7144313}] */
 @WebServlet("/restaurant-data")
 public class RestaurantDataServlet extends HttpServlet {
-
-  private static final Map<Integer, String> NUMBERS = ImmutableMap.of(
-    1, "one", 2, "two", 3, "three");
+  private static final Map<Integer, String> NUMBERS =
+      ImmutableMap.of(1, "one", 2, "two", 3, "three");
   private Collection<Restaurant> restaurants;
   private String my_region = "California";
-  
+
   @Override
   public void init() {
     restaurants = new ArrayList<>();
@@ -44,9 +43,11 @@ public class RestaurantDataServlet extends HttpServlet {
     readRestaurants(3);
   }
 
-  /** Reads restaurant data from CSV file.
-      Dataset can be found here: https://www.kaggle.com/jackywang529/michelin-restaurants */
-  private void readRestaurants(int star){
+  /**
+     Reads restaurant data from CSV file.
+      Dataset can be found here: https://www.kaggle.com/jackywang529/michelin-restaurants
+   */
+  private void readRestaurants(int star) {
     String path = "/WEB-INF/" + NUMBERS.get(star) + "-stars-michelin-restaurants.csv";
     Scanner scanner = new Scanner(getServletContext().getResourceAsStream(path));
     String line = scanner.nextLine();
@@ -61,16 +62,16 @@ public class RestaurantDataServlet extends HttpServlet {
       String region = cells[5];
       String cuisine = cells[7];
       String price = cells[8];
-      
-      if(region.compareTo(my_region) == 0){
+
+      if (region.compareTo(my_region) == 0) {
         //   restaurants.add(new Restaurant(lat, lng, star, name, city, region, cuisine, price));
-        Restaurant restaurant = Restaurant.create(lat, lng, star, name, city, region, cuisine, price);
+        Restaurant restaurant =
+            Restaurant.create(lat, lng, star, name, city, region, cuisine, price);
         restaurants.add(restaurant);
       }
     }
     scanner.close();
   }
-
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

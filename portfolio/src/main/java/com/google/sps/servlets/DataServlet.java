@@ -33,10 +33,9 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns hard-coded comments */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-
   private ArrayList<Comment> messages = new ArrayList<>();
   private static final String HOMEPAGE = "/index.html";
-  //properties of the Comments
+  // properties of the Comments
   private static final String CLASS_TYPE = "Comment";
   private static final String COMMENT_TIMESTAMP = "timestampUTC";
   private static final String COMMENT_NAME = "name";
@@ -46,11 +45,11 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     Query query = new Query(CLASS_TYPE).addSort(COMMENT_TIMESTAMP, SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
     int numResults = Integer.parseInt(request.getParameter("num-results"));
+    System.out.println("!!! Reading aaaaaa///");
 
     ArrayList<Comment> commentList = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
@@ -64,8 +63,8 @@ public class DataServlet extends HttpServlet {
 
       Comment comment = new Comment(id, timestampUTC, name, email, subject, comments);
       commentList.add(comment);
-      if (numResults <= 0){
-          break;
+      if (numResults <= 0) {
+        break;
       }
     }
 
