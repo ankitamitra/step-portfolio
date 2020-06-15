@@ -49,7 +49,6 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
     int numResults = Integer.parseInt(request.getParameter("num-results"));
-    System.out.println("!!! Reading aaaaaa///");
 
     ArrayList<Comment> commentList = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
