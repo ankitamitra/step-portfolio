@@ -14,10 +14,101 @@
 
 package com.google.sps;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public final class FindMeetingQuery {
+  /**
+   * Method that finds the available meeting times given events for the days, and request
+   * for the new meeting.
+   *
+   * @param events: Collection of events already scheduled in the day
+   * @param request: Details of the new meeting which we try to find time for
+   * @return list of potential TimeRanges to schedule the new event
+   */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+    // Return empty list if duration exceeds length of day.
+    if (request.getDuration() >= TimeRange.END_OF_DAY) {
+      return new ArrayList<>();
+    }
+
+    ArrayList<String> attendees = new ArrayList<String>(request.getAttendees());
+    ArrayList<String> optionalAttendees = new ArrayList<String>(request.getOptionalAttendees());
+    ArrayList<TimeRange> meetingTimes = new ArrayList<TimeRange>();
+    ArrayList<TimeRange> meetingTimesWithOptionals = new ArrayList<TimeRange>();
+    ArrayList<TimeRange> requiredSlots = new ArrayList<TimeRange>();
+    ArrayList<TimeRange> withOptionalSlots = new ArrayList<TimeRange>();
+
+    for (Event event : events) {
+      TimeRange eventTime = event.getWhen();
+      for (String person : attendees) {
+        if (event.getAttendees().contains(person) && !meetingTimes.contains(eventTime)) {
+          meetingTimes.add(eventTime);
+          meetingTimesWithOptionals.add(eventTime);
+        }
+      }
+
+      for (String person : optionalAttendees) {
+        if (event.getAttendees().contains(person)
+            && !meetingTimesWithOptionals.contains(eventTime)) {
+          meetingTimesWithOptionals.add(eventTime);
+        }
+      }
+    }
+    if (meetingTimes.size() == 0 && meetingTimesWithOptionals.size() == 0) {
+      return Arrays.asList(TimeRange.WHOLE_DAY);
+    }
+
+    Collections.sort(meetingTimesWithOptionals, TimeRange.ORDER_BY_START);
+    Collections.sort(meetingTimes, TimeRange.ORDER_BY_START);
+
+    if (meetingTimes.size() > 0) {
+      requiredSlots = getOpenTimes(meetingTimes, request);
+    }
+    if (meetingTimesWithOptionals.size() > 0) {
+      withOptionalSlots = getOpenTimes(meetingTimesWithOptionals, request);
+      if (withOptionalSlots.size() > 0) {
+        return withOptionalSlots;
+      }
+    }
+    return requiredSlots;
+  }
+
+  private ArrayList<TimeRange> getOpenTimes(List<TimeRange> busyTimes, MeetingRequest request) {
+    ArrayList<TimeRange> openTimes = new ArrayList<>();
+
+    // Add beginning of day if possible.
+    int firstMeetingTime = busyTimes.get(0).start();
+    if (firstMeetingTime > request.getDuration()) {
+      openTimes.add(TimeRange.fromStartDuration(0, firstMeetingTime));
+    }
+
+    // Add open times between meetings
+    int lastMeetingEnd = busyTimes.get(0).end();
+    boolean meetingWithinMeeting = false;
+    for (int i = 0; i < busyTimes.size() - 1; i++) {
+      TimeRange currentMeeting = meetingWithinMeeting ? busyTimes.get(i - 1) : busyTimes.get(i);
+      TimeRange nextMeeting = busyTimes.get(i + 1);
+      int availableTime = nextMeeting.start() - currentMeeting.end();
+
+      if (availableTime >= request.getDuration()) {
+        openTimes.add(TimeRange.fromStartDuration(currentMeeting.end(), availableTime));
+      }
+
+      if (nextMeeting.end() > lastMeetingEnd) {
+        lastMeetingEnd = nextMeeting.end();
+      }
+      // This variable is True when the current meeting ends AFTER the next meeting ends.
+      meetingWithinMeeting = currentMeeting.end() > nextMeeting.end();
+    }
+
+    // Add end of day if possible.
+    if ((lastMeetingEnd + request.getDuration()) < TimeRange.END_OF_DAY) {
+      openTimes.add(TimeRange.fromStartEnd(lastMeetingEnd, TimeRange.END_OF_DAY, true));
+    }
+    return openTimes;
   }
 }
