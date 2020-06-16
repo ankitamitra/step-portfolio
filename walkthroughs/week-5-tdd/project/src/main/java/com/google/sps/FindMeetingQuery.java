@@ -35,12 +35,17 @@ public final class FindMeetingQuery {
       return new ArrayList<>();
     }
 
-    ArrayList<String> attendees = new ArrayList<String>(request.getAttendees());
-    ArrayList<String> optionalAttendees = new ArrayList<String>(request.getOptionalAttendees());
+    // Unmodifiable lists that we get from the params:
+    List<String> attendees = Collections.unmodifiableList(new ArrayList<String>(request.getAttendees()));
+    List<String> optionalAttendees = Collections.unmodifiableList(new ArrayList<String>(request.getOptionalAttendees()));
+    
+    // Modifiable lists that we populate/sort in this function:
     ArrayList<TimeRange> meetingTimes = new ArrayList<TimeRange>();
     ArrayList<TimeRange> meetingTimesWithOptionals = new ArrayList<TimeRange>();
-    ArrayList<TimeRange> requiredSlots = new ArrayList<TimeRange>();
-    ArrayList<TimeRange> withOptionalSlots = new ArrayList<TimeRange>();
+
+    // Lists that are populated; made unmodifiable before returning
+    List<TimeRange> requiredSlots = new ArrayList<TimeRange>();
+    List<TimeRange> withOptionalSlots = new ArrayList<TimeRange>();
 
     for (Event event : events) {
       TimeRange eventTime = event.getWhen();
@@ -71,14 +76,21 @@ public final class FindMeetingQuery {
     if (meetingTimesWithOptionals.size() > 0) {
       withOptionalSlots = getOpenTimes(meetingTimesWithOptionals, request);
       if (withOptionalSlots.size() > 0) {
-        return withOptionalSlots;
+        return Collections.unmodifiableList(withOptionalSlots);
       }
     }
-    return requiredSlots;
+    return Collections.unmodifiableList(requiredSlots);
   }
-
-  private ArrayList<TimeRange> getOpenTimes(List<TimeRange> busyTimes, MeetingRequest request) {
-    ArrayList<TimeRange> openTimes = new ArrayList<>();
+  
+  /**
+  * Helper function that returns open times based on busy times and new meeting request. 
+  *
+  * @param busyTimes: list of TimeRanges during which the meeting cannot be held
+  * @param request: Details of the new meeting which we try to find time for
+  * @return unmodifiable list of open times of given duration
+  */
+  private List<TimeRange> getOpenTimes(List<TimeRange> busyTimes, MeetingRequest request) {
+    List<TimeRange> openTimes = new ArrayList<TimeRange>();
 
     // Add beginning of day if possible.
     int firstMeetingTime = busyTimes.get(0).start();
@@ -109,6 +121,6 @@ public final class FindMeetingQuery {
     if ((lastMeetingEnd + request.getDuration()) < TimeRange.END_OF_DAY) {
       openTimes.add(TimeRange.fromStartEnd(lastMeetingEnd, TimeRange.END_OF_DAY, true));
     }
-    return openTimes;
+    return Collections.unmodifiableList(openTimes);
   }
 }
