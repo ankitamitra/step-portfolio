@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/delete-data")
 public class DeleteCommentServlet extends HttpServlet {
-
   private static final String HOMEPAGE = "/index.html";
   private static final String CLASS_TYPE = "Comment";
   private static final String COMMENT_TIMESTAMP = "timestampUTC";

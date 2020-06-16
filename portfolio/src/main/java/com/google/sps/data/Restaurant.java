@@ -18,8 +18,8 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class Restaurant {
-  public static Restaurant create(double lat, double lng, int star, String name,
-                    String city, String region, String cuisine, String price) {
+  public static Restaurant create(double lat, double lng, int star, String name, String city,
+      String region, String cuisine, String price) {
     return new AutoValue_Restaurant(lat, lng, star, name, city, region, cuisine, price);
   }
 
