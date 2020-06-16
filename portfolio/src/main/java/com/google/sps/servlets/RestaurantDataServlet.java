@@ -69,7 +69,9 @@ public class RestaurantDataServlet extends HttpServlet {
           restaurants.add(restaurant);
         }
       }
-    }
+    } catch (Exception e) {
+        System.out.println("Something went wrong while reading CSV files.");
+    } 
   }
 
   @Override
