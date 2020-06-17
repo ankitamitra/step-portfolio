@@ -26,6 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
 
 /** Returns restaurant data as a JSON array, e.g. [{"lat": 38.4404675, "lng": -122.7144313}] */
 @WebServlet("/restaurant-data")
@@ -33,7 +34,7 @@ public class RestaurantDataServlet extends HttpServlet {
   private static final Map<Integer, String> NUMBERS =
       ImmutableMap.of(1, "one", 2, "two", 3, "three");
   private Collection<Restaurant> restaurants;
-  private String my_region = "California";
+  private static final String RESTAURANTS_REGION = "California";
 
   @Override
   public void init() {
@@ -49,27 +50,29 @@ public class RestaurantDataServlet extends HttpServlet {
    */
   private void readRestaurants(int star) {
     String path = "/WEB-INF/" + NUMBERS.get(star) + "-stars-michelin-restaurants.csv";
-    Scanner scanner = new Scanner(getServletContext().getResourceAsStream(path));
-    String line = scanner.nextLine();
-    while (scanner.hasNextLine()) {
-      line = scanner.nextLine();
-      String[] cells = line.split(",");
+    try (Scanner scanner = new Scanner(getServletContext().getResourceAsStream(path))) {
+      String line = scanner.nextLine();
+      while (scanner.hasNextLine()) {
+        line = scanner.nextLine();
+        String[] cells = line.split(",");
 
-      String name = cells[0];
-      double lat = Double.parseDouble(cells[2]);
-      double lng = Double.parseDouble(cells[3]);
-      String city = cells[4];
-      String region = cells[5];
-      String cuisine = cells[7];
-      String price = cells[8];
+        String name = cells[0];
+        double lat = Double.parseDouble(cells[2]);
+        double lng = Double.parseDouble(cells[3]);
+        String city = cells[4];
+        String region = cells[5];
+        String cuisine = cells[7];
+        String price = cells[8];
 
-      if (region.compareTo(my_region) == 0) {
-        Restaurant restaurant =
-            Restaurant.create(lat, lng, star, name, city, region, cuisine, price);
-        restaurants.add(restaurant);
+        if (region.compareTo(RESTAURANTS_REGION) == 0) {
+          Restaurant restaurant =
+              Restaurant.create(lat, lng, star, name, city, region, cuisine, price);
+          restaurants.add(restaurant);
+        }
       }
-    }
-    scanner.close();
+    } catch (Exception e) {
+        throw new ServletException("Exception occurred while reading CSV file: " + path, e);
+    } 
   }
 
   @Override
