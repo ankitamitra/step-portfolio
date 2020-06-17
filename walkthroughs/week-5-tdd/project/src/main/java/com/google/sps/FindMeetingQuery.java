@@ -66,13 +66,12 @@ public final class FindMeetingQuery {
     Collections.sort(meetingTimesWithOptionals, TimeRange.ORDER_BY_START);
     Collections.sort(meetingTimes, TimeRange.ORDER_BY_START);
 
-    if (meetingTimes.size() > 0) {
-      requiredSlots = getOpenTimes(meetingTimes, request);
-    }
     if (meetingTimesWithOptionals.size() > 0) {
       withOptionalSlots = getOpenTimes(meetingTimesWithOptionals, request);
       if (withOptionalSlots.size() > 0) {
         return Collections.unmodifiableList(withOptionalSlots);
+      } else if (meetingTimes.size() > 0){
+          requiredSlots = getOpenTimes(meetingTimes, request);
       }
     }
     return Collections.unmodifiableList(requiredSlots);
