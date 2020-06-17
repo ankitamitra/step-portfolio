@@ -39,10 +39,6 @@ public final class FindMeetingQuery {
     ArrayList<TimeRange> meetingTimes = new ArrayList<TimeRange>();
     ArrayList<TimeRange> meetingTimesWithOptionals = new ArrayList<TimeRange>();
 
-    // Lists that are populated; made unmodifiable before returning
-    List<TimeRange> requiredSlots = new ArrayList<TimeRange>();
-    List<TimeRange> withOptionalSlots = new ArrayList<TimeRange>();
-
     for (Event event : events) {
       TimeRange eventTime = event.getWhen();
       for (String person : request.getAttendees()) {
@@ -59,22 +55,22 @@ public final class FindMeetingQuery {
         }
       }
     }
-    if (meetingTimes.size() == 0 && meetingTimesWithOptionals.size() == 0) {
+    if (meetingTimes.isEmpty() && meetingTimesWithOptionals.isEmpty()) {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
 
     Collections.sort(meetingTimesWithOptionals, TimeRange.ORDER_BY_START);
     Collections.sort(meetingTimes, TimeRange.ORDER_BY_START);
 
-    if (meetingTimesWithOptionals.size() > 0) {
-      withOptionalSlots = getOpenTimes(meetingTimesWithOptionals, request);
-      if (withOptionalSlots.size() > 0) {
+    if (!meetingTimesWithOptionals.isEmpty()) {
+      List<TimeRange> withOptionalSlots = getOpenTimes(meetingTimesWithOptionals, request);
+      if (!withOptionalSlots.isEmpty()) {
         return Collections.unmodifiableList(withOptionalSlots);
-      } else if (meetingTimes.size() > 0){
-          requiredSlots = getOpenTimes(meetingTimes, request);
+      } else if (!meetingTimes.isEmpty()){
+        return Collections.unmodifiableList(getOpenTimes(meetingTimes, request));
       }
     }
-    return Collections.unmodifiableList(requiredSlots);
+    return new ArrayList<TimeRange>();
   }
   
   /**
