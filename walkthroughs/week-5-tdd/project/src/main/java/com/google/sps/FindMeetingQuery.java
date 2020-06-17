@@ -35,10 +35,6 @@ public final class FindMeetingQuery {
       return new ArrayList<>();
     }
 
-    // Unmodifiable lists that we get from the params:
-    List<String> attendees = Collections.unmodifiableList(new ArrayList<String>(request.getAttendees()));
-    List<String> optionalAttendees = Collections.unmodifiableList(new ArrayList<String>(request.getOptionalAttendees()));
-    
     // Modifiable lists that we populate/sort in this function:
     ArrayList<TimeRange> meetingTimes = new ArrayList<TimeRange>();
     ArrayList<TimeRange> meetingTimesWithOptionals = new ArrayList<TimeRange>();
@@ -49,14 +45,14 @@ public final class FindMeetingQuery {
 
     for (Event event : events) {
       TimeRange eventTime = event.getWhen();
-      for (String person : attendees) {
+      for (String person : request.getAttendees()) {
         if (event.getAttendees().contains(person) && !meetingTimes.contains(eventTime)) {
           meetingTimes.add(eventTime);
           meetingTimesWithOptionals.add(eventTime);
         }
       }
 
-      for (String person : optionalAttendees) {
+      for (String person : request.getOptionalAttendees()) {
         if (event.getAttendees().contains(person)
             && !meetingTimesWithOptionals.contains(eventTime)) {
           meetingTimesWithOptionals.add(eventTime);
