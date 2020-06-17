@@ -26,6 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
 
 /** Returns restaurant data as a JSON array, e.g. [{"lat": 38.4404675, "lng": -122.7144313}] */
 @WebServlet("/restaurant-data")
