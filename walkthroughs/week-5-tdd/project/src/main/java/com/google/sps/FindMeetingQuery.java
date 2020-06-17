@@ -96,8 +96,9 @@ public final class FindMeetingQuery {
     // Add open times between meetings
     int lastMeetingEnd = busyTimes.get(0).end();
     boolean meetingWithinMeeting = false;
+    TimeRange currentMeeting = null;
     for (int i = 0; i < busyTimes.size() - 1; i++) {
-      TimeRange currentMeeting = meetingWithinMeeting ? busyTimes.get(i - 1) : busyTimes.get(i);
+      currentMeeting = meetingWithinMeeting ? currentMeeting : busyTimes.get(i);
       TimeRange nextMeeting = busyTimes.get(i + 1);
       int availableTime = nextMeeting.start() - currentMeeting.end();
 
